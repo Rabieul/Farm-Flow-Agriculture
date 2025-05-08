@@ -1,0 +1,19 @@
+# Ignore system files and personal files
+.DS_Store
+Thumbs.db
+*.log
+*.bak
+
+# Ignore IDE or editor-specific files
+.vscode/
+.idea/
+*.swp
+
+# Ignore OS-specific files
+AppData/
+OneDrive/
+Pictures/
+Documents/
+Downloads/
+Music/
+Videos/
