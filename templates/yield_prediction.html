@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agri Yield Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #222222;
+      --card-bg: rgba(255, 255, 255, 0.534);
+    }
+    body.dark {
+      --bg: #121212;
+      --text: #f1f1f1;
+      --card-bg: rgba(40, 40, 40, 0.95);
+    }
+    body {
+      font-family: 'Times New Roman', Georgia, serif;
+      margin: 0;
+      background: url("/static/bp.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      padding: 16px 0;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    footer {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 12px;
+}
+    .logout {
+      text-decoration: none;
+      color: white;
+      background: #FF4B4B;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      margin-left: 10px;
+    }
+    .toggle-dark {
+      background: #222;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    form select, form input[type=number] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    form input[type=submit], .download-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #395B64;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.2em;
+      background: #e0f3ed;
+      border-left: 5px solid #395B64;
+      padding: 15px;
+      border-radius: 8px;
+      color: #222;
+    }
+    nav {
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      padding: 16px 0;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 2px solid white;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: white;
+      color: #333;
+    }
+
+    body.dark .result {
+      background: #2c2c2c;
+      color: #f1f1f1;
+    }
+    .error {
+      margin-top: 30px;
+      font-size: 1em;
+      background: #fdecea;
+      border-left: 5px solid #e53935;
+      padding: 15px;
+      border-radius: 8px;
+      color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="{{ url_for('about_us') }}">About Us</a>
+  <a href="{{ url_for('yield_prediction') }}">Smart Yield Prediction</a>
+  <a href="{{ url_for('crop_suggestion') }}">Smart Crop Suggestion</a>
+  <a href="{{ url_for('dataset') }}">Farm Intelligence</a>
+  <a href="{{ url_for('powerbi') }}">Power BI Visualization</a>
+  <div>
+    <a class="logout" href="{{ url_for('dashboard') }}">⬅ Back</a>
+    <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+
+
+    <button class="toggle-dark" onclick="toggleDarkMode()">Dark Mode</button>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Crop Yield Prediciton</h1>
+  <form method="POST">
+    <label>Crop</label>
+    <select name="crop" required>
+      {% for c in crops %}
+        <option value="{{ c }}" {% if crop == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Season</label>
+    <select name="season" required>
+      {% for s in seasons %}
+        <option value="{{ s }}" {% if season == s %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+
+    <label>State</label>
+    <select name="state" required>
+      {% for st in states %}
+        <option value="{{ st }}" {% if state == st %}selected{% endif %}>{{ st }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Area (ha)</label>
+    <input type="number" name="area" step="0.01" min="0.1" required placeholder="Min: 0.1 ha" value="{{ request.form.get('area') }}">
+
+    <label>Annual Rainfall (mm)</label>
+    <input type="number" name="rainfall" step="0.01" min="200" required placeholder="Min: 200 mm" value="{{ request.form.get('rainfall') }}">
+
+    <label>Fertilizer (kg/ha)</label>
+    <input type="number" name="fertilizer" step="0.01" min="50" required placeholder="Min: 50 kg/ha" value="{{ request.form.get('fertilizer') }}">
+
+    <label>Pesticide (kg/ha)</label>
+    <input type="number" name="pesticide" step="0.01" min="2" required placeholder="Min: 2 kg/ha" value="{{ request.form.get('pesticide') }}">
+
+    <input type="submit" value="Predict Yield">
+  </form>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  {% if prediction and not error %}
+    <div class="result">
+      <strong>Predicted Yield:</strong> {{ prediction }} kg/ha<br>
+      <strong>Crop:</strong> {{ crop }}<br>
+      <strong>Season:</strong> {{ season }}<br>
+      <strong>State:</strong> {{ state }}
+    </div>
+    <form method="POST" action="{{ url_for('generate_pdf') }}">
+      <input type="hidden" name="crop" value="{{ crop }}">
+      <input type="hidden" name="season" value="{{ season }}">
+      <input type="hidden" name="state" value="{{ state }}">
+      <input type="hidden" name="area" value="{{ request.form['area'] }}">
+      <input type="hidden" name="rainfall" value="{{ request.form['rainfall'] }}">
+      <input type="hidden" name="fertilizer" value="{{ request.form['fertilizer'] }}">
+      <input type="hidden" name="pesticide" value="{{ request.form['pesticide'] }}">
+      <input type="hidden" name="prediction" value="{{ prediction }}">
+      <input type="submit" class="download-btn" value="Download PDF Report">
+    </form>
+  {% endif %}
+</div>
+
+<script>
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('dark', document.body.classList.contains('dark'));
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('dark') === 'true') {
+      document.body.classList.add('dark');
+    }
+  });
+</script>
+<footer>
+  <p>Developed by Rabieul Rahman Ibnu Albi | Contact No. +91 6363609560</p>
+  <p>Email: rabieulrahman.albi@gmail.com</p>
+</footer>
+</body>
+</html>

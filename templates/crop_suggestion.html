@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Suggestion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+   :root {
+  --bg: #ffffff;
+  --text: #222222;
+  --card-bg: rgba(248, 244, 244, 0.575);
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #f1f1f1;
+  --card-bg: rgba(40, 40, 40, 0.95);
+}
+
+body {
+  font-family: 'Times New Roman', Georgia, serif;
+  margin: 0;
+  background: url("/static/bp.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.783);
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+footer {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 12px;
+}
+nav {
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      padding: 16px 0;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 2px solid white;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: white;
+      color: #333;
+    }
+
+
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: var(--card-bg);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+form select, form input[type=number], form input[type=text] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+form input[type=submit], .download-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #395B64;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.result, .error, .notice {
+  margin-top: 30px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.result {
+  background: #e0f3ed;
+  border-left: 5px solid #395B64;
+  font-size: 1.1em;
+  color: var(--text);
+}
+
+body.dark .result {
+  background: #2c2c2c;
+  color: #f1f1f1;
+}
+
+.error {
+  background: #fdecea;
+  border-left: 5px solid #e53935;
+  color: #b71c1c;
+}
+
+.notice {
+  background: #fff3cd;
+  border-left: 5px solid #ffc107;
+  color: #856404;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 0.95em;
+  text-align: center;
+}
+
+table th {
+  background-color: #395B64;
+  color: white;
+}
+
+.toggle-dark {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.logout {
+  text-decoration: none;
+  color: white;
+  background: #FF4B4B;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+  </style>
+</head>
+<body>
+    <header>
+    </header>
+    <nav>
+      <a href="{{ url_for('about_us') }}">About Us</a>
+      <a href="{{ url_for('yield_prediction') }}">Smart Yield Prediction</a>
+      <a href="{{ url_for('crop_suggestion') }}">Smart Crop Suggestion</a>
+      <a href="{{ url_for('dataset') }}">Farm Intelligence</a>
+      <a href="{{ url_for('powerbi') }}">Power BI Visualization</a>
+      <div>
+        <a class="logout" href="{{ url_for('dashboard') }}">⬅ Back</a>
+        <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+    
+    
+        <button class="toggle-dark" onclick="toggleDarkMode()">Dark Mode</button>
+      </div>
+    </nav>
+
+
+<div class="container">
+  <h1>Crop Suggestion</h1>
+  <form method="POST" action="{{ url_for('crop_suggestion') }}">
+    <label>Season</label>
+    <select name="season" required>
+      {% for s in seasons %}<option value="{{ s }}" {% if selected_season==s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+    <label>State</label>
+    <select name="state" required>
+      {% for st in states %}<option value="{{ st }}" {% if selected_state==st %}selected{% endif %}>{{ st }}</option>{% endfor %}
+    </select>
+    <input type="submit" value="Suggest Crop">
+  </form>
+
+  {% if no_data %}
+    <div class="notice">⚠️ No crop suggestions available for this selection.</div>
+  {% endif %}
+
+  {% if suggested %}
+  <h2>Recommended Crops</h2>
+  <table>
+    <thead>
+      <tr>
+        <th title="Recommended crop for the selected state and season">🌱 Crop</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crop in suggested %}
+      <tr>
+        <td>🌿 {{ crop }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+<script>
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('dark', document.body.classList.contains('dark'));
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('dark') === 'true') {
+      document.body.classList.add('dark');
+    }
+  });
+</script>
+<footer>
+  <p>Developed by Rabieul Rahman Ibnu Albi | Contact No. +91 6363609560</p>
+  <p>Email: rabieulrahman.albi@gmail.com</p>
+</footer>
+</body>
+</html>

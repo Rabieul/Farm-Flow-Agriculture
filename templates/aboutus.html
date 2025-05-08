@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Farm Flow</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Times New Roman', Georgia, serif;
+
+      
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+    }
+    .features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+
+.card {
+  background: rgba(0, 0, 0, 0.048);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  background: #514c4c61;
+}
+
+.cta-buttons {
+  margin-top: 40px;
+  text-align: center;
+}
+.cta-buttons a {
+  margin: 0 10px;
+  padding: 12px 20px;
+  background-color: #395b6466;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.cta-buttons a:hover {
+  background-color: #243a4193;
+}
+
+footer {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 20px;
+}
+
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav button {
+      background-color: transparent;
+      border: 1px solid #fff;
+      padding: 10px 16px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: normal;
+    }
+
+    nav button:hover {
+      background-color: #ffffffcc;
+      color: #000;
+    }
+
+    .content {
+      padding: 60px 10vw;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.3em;
+      line-height: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 550px;
+      border: none;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <nav>
+    <!-- Scrolls to the top of current page -->
+    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">About Us</button>
+    <button onclick="location.href='/yield_prediction'">Smart Yield Prediction</button>
+    <button onclick="location.href='/crop_suggestion'">Smart Crop Suggestion</button>
+    <button onclick="location.href='/dataset'">Farm Intelligence</button>
+    <button onclick="location.href='/powerbi'">Power BI Visualization</button>
+  </nav>
+  <h1 data-aos="fade-up">Farm Flow: Agricultural Yield Analysis</h1>
+  <div class="features">
+    <div class="card" onclick="location.href='{{ url_for('yield_prediction') }}'">
+      <h3>➤ Forecast Agricultural Yield</h3>
+      <p>Use historical data and machine learning to anticipate crop yield before cultivation begins.</p>
+    </div>
+    <div class="card" onclick="location.href='{{ url_for('crop_suggestion') }}'">
+      <h3>⸙͎ Recommend Best-Fit Crops</h3>
+      <p>Discover the most suitable crops for your region and season based on real-world patterns.</p>
+    </div>
+    <div class="card" onclick="location.href='{{ url_for('dataset') }}'">
+      <h3>⌕ Explore Farming Data</h3>
+      <p>Filter and view clean agricultural datasets to support research, policy, or planning.</p>
+    </div>
+    <div class="card" onclick="location.href='{{ url_for('powerbi') }}'">
+      <h3>〽 Visualize with Power BI</h3>
+      <p>Interact with comprehensive dashboards that uncover regional and seasonal insights.</p>
+    </div>
+  </div>
+  
+  
+  <div class="content">
+    <h1 data-aos="fade-up">What is Farm Flow</h1>
+    <p data-aos="fade-up" data-aos-delay="100">
+      Farm Flow is a forward-thinking, data-driven agricultural analytics platform developed with the vision of modernizing and enhancing agricultural decision-making for a wide range of users — from farmers and students to researchers and policy stakeholders. In an age where data is critical to every sector, agriculture too must evolve — and Farm Flow is built to lead that transition.
+
+      Our platform was born out of the recognition that farmers and agricultural planners often lack access to usable, real-time insights. Farm Flow aims to bridge the gap between complex agricultural data and actionable knowledge, delivering intuitive, predictive tools and interactive visualizations to empower users at all levels.
+    </p>
+    <h2 data-aos="fade-up">▸Our vision</h2>
+    <p data-aos="fade-up" data-aos-delay="250">
+Our vision is simple but powerful:
+To bring intelligent agricultural planning within reach of every user through transparency, usability, and automation.
+
+We believe in enabling our users to make well-informed, confident decisions backed by technology, analytics, and evidence — whether that means selecting the right crop for the season or forecasting yield based on environmental and input parameters.
+
+
+    </p>
+    <h2 data-aos="fade-up">▸What Farm Flow Offers</h2>
+    <p data-aos="fade-up" data-aos-delay="300">
+      Farm Flow is not a static tool — it's a complete ecosystem that combines machine learning models, data filtering tools, and interactive dashboards to provide a seamless agricultural planning experience.
+    </p>
+    <h3 data-aos="fade-up">✓Smart Yield Prediction</h3>
+      <p data-aos="fade-up" data-aos-delay="300">
+      Using a trained Random Forest Regressor, the platform offers a simple form where users can input key parameters such as:
+      
+      Cultivated area (in hectares)
+      
+      Annual rainfall (in mm)
+      
+      Fertilizer usage (kg/ha)
+      
+      Pesticide usage (kg/ha)
+      
+      With these values, the system predicts the expected yield (kg/ha) based on actual historic agricultural data. Predictions are highly useful for pre-season planning and estimating resource efficiency. Users can also export the results as a downloadable PDF report, aiding documentation and field comparison.
+    </p>
+    <h3 data-aos="fade-up">⸙Smart Crop Suggestion</h3>
+      <p data-aos="fade-up" data-aos-delay="300">
+      For newer farmers or anyone uncertain about which crop to grow in a given region and season, Farm Flow provides a recommendation system. By selecting a state and season, the system analyzes trends from real historical data to suggest the top 5 most suitable crops for that combination — ensuring better adaptability and improved success rates.
+    </p>
+    <h3 data-aos="fade-up">🗀Farm Intelligence</h3>
+      <p data-aos="fade-up" data-aos-delay="300">
+      We offer a transparent look into the data driving the application. Users can explore the cleaned dataset through:
+      
+      Live table view
+      
+      Search bar for keywords
+      
+      Dynamic filters for crop, state, season, and year
+      
+      This empowers researchers and curious users to dive into the agricultural trends of India without needing complex tools or installations.
+    </p>
+    <h3 data-aos="fade-up">🗒Embedded Power BI Dashboard</h3>
+      <p data-aos="fade-up" data-aos-delay="300"></p>
+      To ensure professional-grade insights, we’ve embedded a Microsoft Power BI visualization directly into the web app. This enables interactive exploration of key agricultural indicators:
+      
+      Crop production trends
+      
+      Fertilizer and pesticide usage
+      
+      Seasonal patterns
+      
+      State-wise output
+      
+      These dashboards help in identifying macro-level patterns that can guide local and national decision-making.
+    </p>
+    <h3 data-aos="fade-up">AAE</h3>
+    <p data-aos="fade-up" data-aos-delay="250">
+      Whether you're a student researching crop patterns, a policymaker, or a farmer seeking to improve yield,
+      Farm Flow is designed to Assist, Adapt, and Evolve with your needs.
+    </p>
+    <video autoplay muted loop id="bg-video">
+      <source src="/static/farmflow_bg.mp4" type="video/mp4">
+    </video>
+    
+    <div class="cta-buttons">
+      <a href="{{ url_for('yield_prediction') }}">⸙ Try Yield Prediction</a>
+      <a href="{{ url_for('crop_suggestion') }}">🗒 Try Crop Suggestion</a>
+    </div>
+    
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+<footer>
+  <p>Developed by Rabieul Rahman Ibnu Albi | Contact No. +91 6363609560</p>
+  <p>Email: rabieulrahman.albi@gmail.com</p>
+</footer>
+
+</body>
+
+</html>

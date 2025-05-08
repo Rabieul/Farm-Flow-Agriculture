@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Power BI Visualization</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    body {
+        font-family: 'Times New Roman', Georgia, serif;
+      margin: 0;
+      background: url("/static/bp.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #f1f1f1;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      padding: 16px 0;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    footer {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 12px;
+}
+    nav {
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      padding: 16px 0;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 2px solid white;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: white;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 16px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+    <header></header>
+      </header>
+
+  <nav>
+    <a href="{{ url_for('about_us') }}">About Us</a>
+    <a href="{{ url_for('yield_prediction') }}">Smart Yield Prediction</a>
+    <a href="{{ url_for('crop_suggestion') }}">Smart Crop Suggestion</a>
+    <a href="{{ url_for('dataset') }}">Farm Intelligence</a>
+    <a href="{{ url_for('powerbi') }}">Power BI Visualization</a>
+  </nav>
+
+  <div class="container">
+    <h1>Power BI Report</h1>
+    <iframe title="Farm Flow Agricultural Yield Analysis"
+      src="https://app.powerbi.com/reportEmbed?reportId=9bc520cd-98c6-4b87-81d5-7fdec92e5b2a&autoAuth=true&ctid=24f88f05-24e2-4cd6-8549-5d47656f2c7a"
+      allowFullScreen="true"></iframe>
+  </div>
+  <footer>
+    <p>Developed by Rabieul Rahman Ibnu Albi | Contact No. +91 6363609560</p>
+    <p>Email: rabieulrahman.albi@gmail.com</p>
+  </footer>
+</body>
+</html>
