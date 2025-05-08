@@ -78,7 +78,7 @@ PowerBI/: Contains the Power BI reports and datasets.
 assets/: Contains any images or icons used in the UI.
 
 Contributing
-We welcome contributions to improve this project. To contribute, follow these steps:
+We welcome contributions to improve this project. To contribute, follow these steps:.
 
 Fork the repository.
 
