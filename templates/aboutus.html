@@ -10,12 +10,12 @@
     body {
       margin: 0;
       font-family: 'Times New Roman', Georgia, serif;
-
+      background: url("/static/bg.mp4");
       
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      color: white;
+      color: rgba(255, 255, 255, 0.913);
     }
     .features {
   display: grid;
@@ -35,7 +35,7 @@
 
 
 .card {
-  background: rgba(0, 0, 0, 0.048);
+  background: rgba(0, 0, 0, 0.265);
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -228,10 +228,12 @@ We believe in enabling our users to make well-informed, confident decisions back
       Whether you're a student researching crop patterns, a policymaker, or a farmer seeking to improve yield,
       Farm Flow is designed to Assist, Adapt, and Evolve with your needs.
     </p>
-    <video autoplay muted loop id="bg-video">
-      <source src="/static/farmflow_bg.mp4" type="video/mp4">
+    <video autoplay muted loop id="bg-video" preload="auto">
+      <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
     </video>
     
+
     <div class="cta-buttons">
       <a href="{{ url_for('yield_prediction') }}">⸙ Try Yield Prediction</a>
       <a href="{{ url_for('crop_suggestion') }}">🗒 Try Crop Suggestion</a>

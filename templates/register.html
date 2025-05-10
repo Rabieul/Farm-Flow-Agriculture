@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Farm Flow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: url("/static/bp.jpg") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.457);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2d4e2e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #1c3a1e;
+        }
+        .flashes {
+            list-style: none;
+            padding: 0;
+        }
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: white;
+        }
+        .alert-danger {
+            background-color: #f44336;  /* Red for errors */
+        }
+        .alert-success {
+            background-color: #4CAF50;  /* Green for success */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ Flash messages block placed right after <body> starts -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="alert alert-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <div class="form-container">
+        <h2>Register</h2>
+        <form method="POST" action="{{ url_for('register') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="username">Username</label>
+                {{ form.username(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form.email(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

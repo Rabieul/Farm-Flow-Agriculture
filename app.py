@@ -2,13 +2,55 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
+from flask import Flask, render_template, redirect, url_for, request
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired, Email
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import flash
+
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
+# SECRET key for CSRF protection in Flask-WTF forms
+app.config['SECRET_KEY'] = 'supersecretkey123'  # you can change it
+
+# Using SQLite as a database (users.db will be created)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize the database
+db = SQLAlchemy(app)
+
 # Load dataset once at startup
 data = pd.read_csv('cleaned_testdata.csv')
 data.columns = data.columns.str.strip()
+
+# Flask-WTF form for registration
+from wtforms import ValidationError
+
+def validate_email(self, field):
+        if '@gmail.com' not in field.data.lower():
+            raise ValidationError('Please enter a valid Gmail address.')
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])  # Keep Email() for basic format check
+    password = PasswordField('Password', validators=[DataRequired()])
+
+# Database model for the User
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    # Create tables manually at startup
+with app.app_context():
+    db.create_all()
+    print("✅ Tables created!")
 
 # Required columns
 required_columns = ['Crop', 'Yield', 'Area', 'Annual_Rainfall', 'Fertilizer', 'Pesticide', 'Crop_Year', 'Season', 'State']
@@ -51,13 +93,46 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username == 'admin' and password == 'admin123':
-            session['user'] = username
+
+        # Check if user exists
+        user = User.query.filter_by(username=username).first()
+
+        # ✅ Verify hashed password
+        if user and check_password_hash(user.password, password):
+            session['user'] = user.username
             return redirect(url_for('about_us'))
         else:
             return render_template('login.html', error='Invalid credentials')
+
     return render_template('login.html')
 
+
+
+# This route should not be indented inside the login route
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Email address already registered. Please use a different one.', 'danger')
+            return redirect(url_for('register'))
+
+        new_user = User(username=username, email=email, password=generate_password_hash(password))
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Registration successful! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    
+    # ✅ Keep this indented at same level as `if form.validate_on_submit():`
+    print("📭 Form GET or not validated")
+    return render_template('register.html', form=form)
 @app.route('/logout')
 def logout():
     session.pop('user', None)

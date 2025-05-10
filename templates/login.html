@@ -8,16 +8,38 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background: url("/static/cropimage.jpg") no-repeat center center fixed;
+            background: url("/static/bp.jpg") no-repeat center center fixed;
             background-size: cover;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
         }
+        .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1em;
+        color: #151313;
+        
+    }
+    .footer .no-account-text {
+    font-weight: 600; /* Bolder font weight */
+    color: #392e2e; /* Lighter shade for the "Don't have an account?" text */
+}
+
+    .footer a {
+        color: #264556;  /* Link color */
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .footer a:hover {
+        color: #2c444a;  /* Hover color */
+        text-decoration: underline;
+    }
 
         .login-box {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.457);
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -78,7 +100,15 @@
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="submit" value="Login">
-        <div class="footer">Use <strong>admin / admin123</strong> for demo</div>
+    
+        <!-- 👇 Register link here -->
+        
+        <div class="footer">
+            <span class="no-account-text">Don't have an account?</span> 
+            <a href="{{ url_for('register') }}">Register here</a>
+        </div>
+        
     </form>
+    
 </body>
 </html>
