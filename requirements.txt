@@ -21,6 +21,7 @@ Flask-Script==2.0.6
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.2
 greenlet==3.2.1
+gunicorn==23.0.0
 idna==3.10
 inflect==7.5.0
 itsdangerous==2.2.0
@@ -32,6 +33,7 @@ marshmallow==4.0.0
 marshmallow-sqlalchemy==1.4.2
 more-itertools==10.7.0
 numpy==2.2.5
+packaging==25.0
 pandas==2.2.3
 pillow==11.2.1
 python-dateutil==2.9.0.post0
